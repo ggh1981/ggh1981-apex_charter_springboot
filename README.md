@@ -2,8 +2,8 @@
 
 ## Database
 
-CREATE SCHEMA charter;
+`CREATE SCHEMA charter;`
 
-CREATE USER 'charteruser'@'localhost' IDENTIFIED BY 'Password01';
+`CREATE USER 'charteruser'@'localhost' IDENTIFIED BY 'Password01';`
 
-GRANT ALL PRIVILEGES ON charter.* TO 'charteruser'@'localhost';
+`GRANT ALL PRIVILEGES ON charter.* TO 'charteruser'@'localhost';`
