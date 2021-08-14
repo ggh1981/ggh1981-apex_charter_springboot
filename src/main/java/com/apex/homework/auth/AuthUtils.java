@@ -1,4 +1,5 @@
 package com.apex.homework.auth;
+
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -14,7 +15,6 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 
-
 @Component
 public class AuthUtils {
 	private static final Logger logger = LoggerFactory.getLogger(AuthUtils.class);
@@ -27,12 +27,9 @@ public class AuthUtils {
 
 		UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
 
-		return Jwts.builder()
-				.setSubject(user.getUsername())
-				.setIssuedAt(new Date())
+		return Jwts.builder().setSubject(user.getUsername()).setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-				.signWith(SignatureAlgorithm.HS512, authSecret)
-				.compact();
+				.signWith(SignatureAlgorithm.HS512, authSecret).compact();
 	}
 
 	public String getUserNameFromJwtToken(String token) {

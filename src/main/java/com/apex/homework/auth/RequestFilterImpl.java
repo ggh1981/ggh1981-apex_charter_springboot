@@ -60,4 +60,3 @@ public class RequestFilterImpl extends OncePerRequestFilter {
 		return null;
 	}
 }
-

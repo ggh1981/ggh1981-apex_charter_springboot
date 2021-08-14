@@ -11,7 +11,7 @@ import com.apex.homework.entity.User;
 import com.apex.homework.repository.UserRepository;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	UserRepository userRepository;
@@ -24,5 +24,5 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
 		return UserDetailsImpl.build(user);
 	}
-	
+
 }

@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Transaction extends EntityBase {
-	@Getter
-	@Setter
 	private Float amount;
 }

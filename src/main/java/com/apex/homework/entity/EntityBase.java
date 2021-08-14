@@ -18,23 +18,18 @@ import lombok.Setter;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
 public class EntityBase {
-	@Getter
-	@Setter
+
 	@CreatedDate
 	private LocalDate creationDate;
-	@Getter
-	@Setter
 	private boolean deleted = false;
-	@Getter
-	@Setter
 	@GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(columnDefinition = "CHAR(32)")
+	@GenericGenerator(name = "uuid", strategy = "uuid")
+	@Column(columnDefinition = "CHAR(32)")
 	@Id
 	private String id;
-	@Getter
-	@Setter
 	@LastModifiedDate
 	private LocalDate modifiedDate;
 }

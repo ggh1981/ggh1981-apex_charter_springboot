@@ -14,15 +14,15 @@ public class RewardsUtils {
 		LocalDate currentDate = LocalDate.now();
 		LocalDate currentDateMinus3Months = currentDate.minusMonths(3);
 		double sumAmounts = transactions.stream()
-				.filter(element -> element.getCreationDate().isAfter(currentDateMinus3Months)).mapToDouble(i -> i.getAmount())
-				.sum();
+				.filter(element -> element.getCreationDate().isAfter(currentDateMinus3Months))
+				.mapToDouble(i -> i.getAmount()).sum();
 		int sumAmountsInt = (int) sumAmounts;
-		if(sumAmounts>100) {
+		if (sumAmounts > 100) {
 			rewards = (sumAmountsInt - 100) * 2;
-			if (sumAmountsInt>50) {
+			if (sumAmountsInt > 50) {
 				rewards = rewards + (sumAmountsInt - 50);
 			}
-		} 		
+		}
 		return rewards;
 	}
 }

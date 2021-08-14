@@ -1,28 +1,29 @@
 package com.apex.homework.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.apex.homework.auth.AuthUtils;
-import com.apex.homework.payload.LoginRequest;
-import com.apex.homework.payload.LoginResponse;
+import com.apex.homework.entity.Transaction;
+import com.apex.homework.entity.User;
+import com.apex.homework.payload.RewardsResponse;
 import com.apex.homework.repository.UserRepository;
 import com.apex.homework.services.UserDetailsImpl;
 import com.apex.homework.utils.RewardsUtils;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
-public class AuthController {
+@RequestMapping("/api/customer")
+public class RewardsController {
 
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -36,17 +37,15 @@ public class AuthController {
 	@Autowired
 	UserRepository userRepository;
 
-	@PostMapping("/signin")
-	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+	@GetMapping("/rewards")
+	public ResponseEntity<?> getRewards() {
 
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String token = authUtils.generateJwtToken(authentication);
-
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		User user = userRepository.findByUsername(userDetails.getUsername()).get();
+		List<Transaction> transactions = user.getCustomer().getTransactions();
 
-		return ResponseEntity.ok(new LoginResponse(token, userDetails.getUsername()));
+		return ResponseEntity
+				.ok(new RewardsResponse(user.getUsername(), transactions, rewardsUtils.calculateRewards(transactions)));
 	}
 }
